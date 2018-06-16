@@ -4,7 +4,6 @@ from pack.consui import consUI
 
 def Main():
     # TODO: global config file
-    consUI.headMesage = "lew"
 
     line = consUI.ComandLine('lew', ['q', "quite", "exit"])
     line.AddCommand(['?', 'h', "help"], PrintHelp)
