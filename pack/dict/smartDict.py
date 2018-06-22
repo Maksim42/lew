@@ -1,5 +1,5 @@
 from . import sqliteDB
-
+from ..consui import consUI
 
 
 currentWord = None
@@ -11,7 +11,10 @@ class SmartDict:
         self.db = None
         # record containing curent word
         self.currentWord = None
-        self.db = sqliteDB.SQLiteDB(".\words.db")
+        # TODO: get list of previos DB
+        path = consUI.Input("Print DB path")
+        # TODO: db validation
+        self.db = sqliteDB.SQLiteDB(path)
 
     def Close(self):
         """Save closing dictionari"""
