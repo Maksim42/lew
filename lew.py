@@ -4,19 +4,19 @@ from pack.consui import consUI
 
 def Main():
     # TODO: global config file
-
+    sdict = smartDict.SmartDict()
     line = consUI.ComandLine('lew', ['q', "quite", "exit"])
     line.AddCommand(['?', 'h', "help"], PrintHelp)
     line.AddCommand(['w', "word"],
-                    lambda:consUI.Output(smartDict.Current()))
+                    lambda:consUI.Output(sdict.Current()))
     line.AddCommand(['t', "translation"],
-                    lambda:consUI.Output(smartDict.Translate()))
+                    lambda:consUI.Output(sdict.Translate()))
     line.AddCommand(['n', "next"],
-                    smartDict.Random)
+                    sdict.Random)
     line.AddCommand(['lern'],
-                    smartDict.Lern)
+                    sdict.Lern)
     line.AddCommand(['extend'],
-                    smartDict.ExtendLern)
+                    sdict.ExtendLern)
     # TODO: comand: p, show pronounce
     # TODO: comand: cul, clear unlerning from the lerning word list
     line.Show()

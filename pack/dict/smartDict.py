@@ -1,36 +1,43 @@
 from . import sqliteDB
 
-# DB driver conection
-db = sqliteDB.SQLiteDB(".\words.db")
-# record containing curent word
+
+
 currentWord = None
 
-def Close():
-    """Save closing dictionari"""
-    db.Close()
+class SmartDict:
+    """Interface for datebase conection"""
+    def __init__(self):
+        # DB driver conection
+        self.db = None
+        # record containing curent word
+        self.currentWord = None
+        self.db = sqliteDB.SQLiteDB(".\words.db")
 
-def Current():
-    """Return current word"""
-    if currentWord is None:
-        Random()
-    return currentWord['w']
+    def Close(self):
+        """Save closing dictionari"""
+        self.db.Close()
 
-def Translate():
-    """Return translastion string for current word"""
-    if currentWord is None:
-        Random()
-    return currentWord['t']
+    def Current(self):
+        """Return current word"""
+        if self.currentWord is None:
+            self.Random()
+        return self.currentWord['w']
 
-def Random(lern=False):
-    """Select random word from dictanary"""
-    global currentWord
-    currentWord = db.GetRanLern(lern)
+    def Translate(self):
+        """Return translastion string for current word"""
+        if self.currentWord is None:
+            self.Random()
+        return self.currentWord['t']
 
-def Lern():
-    """Change lerning status of word"""
-    # TODO: inverting status
-    db.SetLerning(currentWord['id'])
+    def Random(self, lern=False):
+        """Select random word from dictanary"""
+        self.currentWord = self.db.GetRanLern(lern)
 
-def ExtendLern(size=10):
-    """Extend lernning words list"""
-    db.ExtendLernPull(size)
+    def Lern(self):
+        """Change lerning status of word"""
+        # TODO: inverting status
+        self.db.SetLerning(self.currentWord['id'])
+
+    def ExtendLern(self, size=10):
+        """Extend lernning words list"""
+        self.db.ExtendLernPull(size)
