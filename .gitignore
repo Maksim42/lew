@@ -1,6 +1,7 @@
 .vscode/
 __pycache__/
 parsers/
+run.py
 *.db
 *.pyc
 *.txt
