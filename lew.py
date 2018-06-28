@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 from pack.dict import smartDict
-from pack.consui import consUI
+from pack import consUI
 
 def Main():
     # TODO: global config file

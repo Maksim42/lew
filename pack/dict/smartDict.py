@@ -1,5 +1,5 @@
 from . import sqliteDB
-from ..consui import consUI
+from .. import consUI
 
 
 currentWord = None

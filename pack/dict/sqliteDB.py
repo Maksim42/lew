@@ -1,7 +1,7 @@
 import sqlite3
 import os.path
 #import inspect
-from ..consui import consUI
+from .. import consUI
 
 class SQLiteDB:
     def __init__(self, dbname):
