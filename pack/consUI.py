@@ -11,14 +11,15 @@ def confirm(message):
     """Show confirm dialog"""
     positive = ['y', "yes"]
     negative = ['n', "no"]
-    result = [None]
+    result = None
     def set_res(arg):
-        result[0] = arg
+        nonlocal result
+        result = arg
     promt = CommandPromt(message, single=True)
     promt.add_command(positive, lambda: set_res(True))
     promt.add_command(negative, lambda: set_res(False))
     promt.show()
-    return result[0]
+    return result
 
 
 class MenuList:
