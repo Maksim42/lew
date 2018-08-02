@@ -7,6 +7,12 @@ from pack import consui
 
 class BaseUtilsTestCase(unittest.TestCase):
     """Test base utils from consui"""
+    def setUp(self):
+        """Setup test environment"""
+        input_patcher = patch("builtins.input")
+        self.input_mock = input_patcher.start()
+        self.addCleanup(input_patcher.stop)
+
     @patch("builtins.print")
     def test_write(self, print_mock):
         """Test consui.write function"""
@@ -15,45 +21,42 @@ class BaseUtilsTestCase(unittest.TestCase):
         consui.write(test_str)
         print_mock.assert_called_with(expected_str)
 
-    @patch("builtins.input")
-    def test_read(self, input_mock):
+    def test_read(self):
         """Test consui.read function"""
         read_mess = "mess"
         input_line = "line"
-        input_mock.return_value = input_line
+        self.input_mock.return_value = input_line
         expected_input_print = "{}>".format(read_mess)
         real_result = consui.read(read_mess)
         # Check input
-        input_mock.assert_called_with(expected_input_print)
+        self.input_mock.assert_called_with(expected_input_print)
         # Check result
         self.assertEqual(real_result, input_line)
 
-    @patch("builtins.input")
-    def test_confirm_simple_positive(self, input_mock):
+    def test_confirm_simple_positive(self):
         """Test consui.confirm standart positive behavior"""
         confirm_mess = "confirm?"
         expected_result = True
         expected_print = "{}>".format(confirm_mess)
         input_lines = ('y', "yes")
         for line in input_lines:
-            input_mock.return_value = line
+            self.input_mock.return_value = line
             real_result = consui.confirm(confirm_mess)
             # Check input
-            input_mock.assert_called_with(expected_print)
+            self.input_mock.assert_called_with(expected_print)
             # Check result
             self.assertEqual(real_result, expected_result)
 
-    @patch("builtins.input")
-    def test_confirm_simple_negative(self, input_mock):
+    def test_confirm_simple_negative(self):
         """Test consui.confirm standart negative behavior"""
         confirm_mess = "confirm?"
         expected_result = False
         expected_print = "{}>".format(confirm_mess)
         input_lines = ('n', "no")
         for line in input_lines:
-            input_mock.return_value = line
+            self.input_mock.return_value = line
             real_result = consui.confirm(confirm_mess)
             # Check input
-            input_mock.assert_called_with(expected_print)
+            self.input_mock.assert_called_with(expected_print)
             # Check result
             self.assertEqual(real_result, expected_result)
