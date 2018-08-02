@@ -31,7 +31,7 @@ def open_file_dialogue(dir_name="./"):
         menu.add_option(name, create_delegate(name))
 
     menu.show()
-    return result
+    return path.join(dir_name, result)
 
 
 def exist(file_name):
