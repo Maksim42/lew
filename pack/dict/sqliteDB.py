@@ -1,7 +1,6 @@
 import sqlite3
-import os.path
-#import inspect
-from .. import consUI
+
+from .. import filesys
 
 class SQLiteDB:
     def __init__(self, dbname):
@@ -94,7 +93,7 @@ class SQLiteDB:
 def CreateDB(dbname):
     """Create empty word db"""
     db = None
-    if (FindAndDelete(dbname)):
+    if filesys.find_and_delete(dbname):
         db = sqlite3.connect(dbname)
         print('Create db {}'.format(dbname))
     else:
@@ -116,16 +115,16 @@ def CreateDB(dbname):
     db.close()
 
 def TestingDB(dbname):
-    #???
+    # TODO: make more useful
     dbO = SQLiteDB(dbname)
     db = dbO.conection
 
-    dbSelect(dbO.cursor, 'words')
+    Select(dbO.cursor, 'words')
     
     # dbO.ExtendLernPull()
     #dbO.SetLerning(1, False)
 
-    # dbSelect(dbO.cursor, 'lern')
+    Select(dbO.cursor, 'lern')
 
     # r = dbO.GetRanLern()
     # print("Random word:")
@@ -148,14 +147,3 @@ def Select(dbCursor, table, limit=0):
 def printList(l):
     for item in l:
         print(item)
-
-def FindAndDelete(dbname):
-    """Check if file existing and remove him\n
-    Return True if conflict corect resolve
-    """
-    if os.path.exists(dbname) and os.path.isfile(dbname):
-        mes = 'Replace {} ?'.format(dbname)
-        if not consUI.ConfirmDialog(mes):
-            return False
-        os.remove(dbname)
-    return True

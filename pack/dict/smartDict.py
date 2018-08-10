@@ -1,20 +1,18 @@
 from . import sqliteDB
-from .. import consUI
+from .. import consui
 
 
 currentWord = None
 
 class SmartDict:
     """Interface for datebase conection"""
-    def __init__(self):
+    def __init__(self, db_path):
         # DB driver conection
         self.db = None
         # record containing curent word
         self.currentWord = None
-        # TODO: get list of previos DB
-        path = consUI.Input("Print DB path")
         # TODO: db validation
-        self.db = sqliteDB.SQLiteDB(path)
+        self.db = sqliteDB.SQLiteDB(db_path)
 
     def Close(self):
         """Save closing dictionari"""

@@ -1,28 +1,31 @@
 #! /usr/bin/env python3
 from pack.dict import smartDict
-from pack import consUI
+from pack import consui as ui
+from pack import filesys
 
-def Main():
+def main():
     # TODO: global config file
-    sdict = smartDict.SmartDict()
-    line = consUI.ComandLine('lew', ['q', "quite", "exit"])
-    line.AddCommand(['?', 'h', "help"], PrintHelp)
-    line.AddCommand(['w', "word"],
-                    lambda:consUI.Output(sdict.Current()))
-    line.AddCommand(['t', "translation"],
-                    lambda:consUI.Output(sdict.Translate()))
-    line.AddCommand(['n', "next"],
-                    sdict.Random)
-    line.AddCommand(['lern'],
-                    sdict.Lern)
-    line.AddCommand(['extend'],
-                    sdict.ExtendLern)
+    db_path = filesys.open_file_dialogue("./db")
+    sdict = smartDict.SmartDict(db_path)
+    line = ui.CommandPromt('lew', ['q', "quite", "exit"])
+    line.add_command(['?', 'h', "help"], print_help)
+    line.add_command(['w', "word"],
+                     lambda: ui.write(sdict.Current()))
+    line.add_command(['t', "translation"],
+                     lambda: ui.write(sdict.Translate()))
+    line.add_command(['n', "next"],
+                     sdict.Random)
+    line.add_command(['lern'],
+                     sdict.Lern)
+    line.add_command(['extend'],
+                     sdict.ExtendLern)
     # TODO: comand: p, show pronounce
     # TODO: comand: cul, clear unlerning from the lerning word list
-    line.Show()
+    line.show()
 
-def PrintHelp():
-    consUI.Output("""\
+def print_help():
+    """Print help information"""
+    ui.write("""\
 Lerning English Word help:
     ?, h, help - print this help
     w, word - show the english word
@@ -31,6 +34,6 @@ Lerning English Word help:
     lern - mark a word as lerning
     extend - extend the lerning words list 
     q, quite, exit - close this program\
-    """)
+""")
 
-Main()
+main()
